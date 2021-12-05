@@ -2,18 +2,18 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "myscanner.h"
 
 %}
 
 delim     [ \t\n]
+ws        {delim}+   
 letter    [A-Za-z] 
 digit     [0-9]	
+id        {letter} ({letter} | {digit})*
+number    {digit}+(\.{digit}+)?(E[+\-]?{digit}+)?
 
 %%
-
-{delim}+                                        {;}
-{digit}+(\.{digit}+)?(E[+\-]?{digit}+)?         {strcpy(yylval.num , yytext); return NUM;}
-[+-/*=,(){}]                                  {return yytext[0];}
 
 "=="                        |
 "!="                        |
@@ -27,15 +27,13 @@ digit     [0-9]
 "while"                     {return WHILE;}
 "for"                       {return FOR;}
 "in"                        {return IN;}
+"range"                     {return RANGE;}
 
 {letter}({letter}|{digit})*                     {strcpy(yylval.id , yytext); return ID;}
 .					                            printf("unexpected character\n");
 
-%%
+%% 
 
-
-main {
-    printf("\n----------------------------------------------- ALYEK Compiler -----------------------------------------------\n\n\n");
-
-    yylex();
+int yywrap(void){
+    return 1;
 }

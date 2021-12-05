@@ -11,8 +11,9 @@ digit     [0-9]
 
 %%
 
-{delim}+                                        {printf("%s is delim",yytext);}
-{digit}+(\.{digit}+)?(E[+\-]?{digit}+)?         {printf("%d is NUM",yytext);}
+{delim}+                                        {printf("%s is delim\n",yytext);}
+{digit}+(\.{digit}+)?(E[+\-]?{digit}+)?         {printf("%s is NUM\n",yytext);}
+[+-/*=,(){}]                                  {printf("%s is oprator\n", yytext);}
 
 
 "=="                        |
@@ -20,22 +21,28 @@ digit     [0-9]
 ">"                         |
 "<"                         |
 ">="                        |
-"<="                        {printf("%s is Relope",yytext);}
+"<="                        {printf("%s is Relope\n",yytext);}
 
-"if"                        {printf("%s is Keyword",yytext);}
-"else"                      {printf("%s is Keyword",yytext);}
-"while"                     {printf("%s is Keyword",yytext);}
-"for"                       {printf("%s is Keyword",yytext);}
-"in"                        {printf("%s is Keyword",yytext);}
+"if"                        {printf("%s is Keyword\n",yytext);}
+"else"                      {printf("%s is Keyword\n",yytext);}
+"while"                     {printf("%s is Keyword\n",yytext);}
+"for"                       {printf("%s is Keyword\n",yytext);}
+"in"                        {printf("%s is Keyword\n",yytext);}
 
-{letter}({letter}|{digit})*                     {printf("%s is ID",yytext);}
-.					                            printf("unexpected character\n");
+{letter}({letter}|{digit})*                     {printf("%s is ID\n",yytext);}
+.					                            {printf("unexpected character\n");}
 
 %%
 
+int yywrap(void){
+    return 1;
+}
 
-main {
+
+int main() {
     printf("\n----------------------------------------------- ALYEK Compiler -----------------------------------------------\n\n\n");
+
+    printf("Enter: \n");
 
     yylex();
 }
