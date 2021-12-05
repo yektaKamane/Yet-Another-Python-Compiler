@@ -13,7 +13,7 @@ digit     [0-9]
 
 {delim}+                                        {printf("%s is delim\n",yytext);}
 {digit}+(\.{digit}+)?(E[+\-]?{digit}+)?         {printf("%s is NUM\n",yytext);}
-[+-/*=,(){}]                                  {printf("%s is oprator\n", yytext);}
+[+-/*%=,(){}]                                  {printf("%s is oprator\n", yytext);}
 
 
 "=="                        |
