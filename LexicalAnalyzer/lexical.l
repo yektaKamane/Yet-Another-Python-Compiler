@@ -3,16 +3,26 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parser.tab.h"
+
+extern void yyerror(const char *);  /* prints grammar violation message */
+
 %}
+
+delim     [ \t\n]
+ws        {delim}+   
+letter    [A-Za-z] 
+digit     [0-9]	
+id        {letter} ({letter} | {digit})*
+number    {digit}+(\.{digit}+)?(E[+\-]?{digit}+)?
 
 %%
 
-"=="                        |
-"!="                        |
-">"                         |
-"<"                         |
-">="                        |
-"<="                        {strcpy(yylval.relo, yytext); printf("%s is Relope",yytext); return RELOP;}
+"=="                        {return EQ_OP;}
+"!="                        {return NE_OP;}
+">="                        {return GE_OP;}
+"<="                        {return LE_OP;}
+">"                         {return ">";}
+"<"                         {return "<";}
 
 "if"                        {return IF;}
 "else"                      {return ELSE;}
@@ -21,8 +31,13 @@
 "in"                        {return IN;}
 "range"                     {return RANGE;}
 
-{letter}({letter}|{digit})*                     {strcpy(yylval.id , yytext); return ID;}
+{letter}({letter}|{digit})*                     {return ID;}
 .	
 
 
 %%
+
+int yywrap(void)        /* called at end of input */
+{
+    return 1;           /* terminate now */
+}
