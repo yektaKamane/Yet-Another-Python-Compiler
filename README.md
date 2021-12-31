@@ -1,1 +1,1 @@
-# Yet_Another_Python_Compiler
+# Yet Another Python Compiler
