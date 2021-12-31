@@ -1,17 +1,9 @@
 %{
-
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include "myscanner.h"
-
+#include "parser.tab.h"
 %}
-
-delim     [ \t\n]
-ws        {delim}+   
-letter    [A-Za-z] 
-digit     [0-9]	
-id        {letter} ({letter} | {digit})*
-number    {digit}+(\.{digit}+)?(E[+\-]?{digit}+)?
 
 %%
 
@@ -30,10 +22,7 @@ number    {digit}+(\.{digit}+)?(E[+\-]?{digit}+)?
 "range"                     {return RANGE;}
 
 {letter}({letter}|{digit})*                     {strcpy(yylval.id , yytext); return ID;}
-.					                            printf("unexpected character\n");
+.	
 
-%% 
 
-int yywrap(void){
-    return 1;
-}
+%%
