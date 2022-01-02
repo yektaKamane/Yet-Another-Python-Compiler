@@ -14,7 +14,23 @@ extern int yylex();
 
 %%
 
+program : block         {$$ = $1;}
+         ;
 
+block   : { stmts }     {$$ = $2;}
+         ;
+
+stmts   : stmts stmt    {$$ = }
+        | 
+        ;
+
+stmt    : expr                                  {$$ = $1;}
+        |  if ( expr ) stmt                     {$$;}
+        |  if ( expr ) stmt else stmt           {;}
+        |  while ( expression ) stmt            {;}
+        |  for id in range ( number ) stmt      {;}
+        |  block                                {;}
+        ;
 
 
 

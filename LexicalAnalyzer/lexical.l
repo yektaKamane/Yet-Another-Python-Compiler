@@ -17,6 +17,8 @@ number    {digit}+(\.{digit}+)?(E[+\-]?{digit}+)?
 
 %%
 
+ws                          { ; }
+
 "=="                        {return EQ_OP;}
 "!="                        {return NE_OP;}
 ">="                        {return GE_OP;}
