@@ -21,8 +21,27 @@ number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 [\n]                                    {return 0;}
 
 {number}                                {strcpy(yylval.num , yytext); return NUMBER;}
+<<<<<<< HEAD
 [-+*/(){}=]                             {return yytext[0];}
 
+=======
+[-+*/%(){}]                             {return yytext[0];}
+
+
+"=="                                    |
+"!="                                    |
+">="                                    |
+"<="                                    |
+">"                                     |
+"<"                                     {strcpy(yylval.relop , yytext); return RELOP;}
+
+"if"                                    {return IF;}
+"else"                                  {return ELSE;}
+"while"                                 {return WHILE;}
+"for"                                   {return FOR;}
+"in"                                    {return IN;}
+"range"                                 {return RANGE;}
+>>>>>>> 2c4dbd8d15c35d1a752bb01c6b037559271cad69
 
 {id}                                    {strcpy(yylval.id , yytext); return ID;}
 
