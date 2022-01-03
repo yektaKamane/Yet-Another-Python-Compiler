@@ -49,29 +49,13 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    number = 258,
-    id = 259,
-    ARITH = 260,
-    RELOP = 261,
-    if = 262,
-    else = 263,
-    for = 264,
-    while = 265,
-    in = 266,
-    range = 267
+    NUMBER = 258,
+    ID = 259
   };
 #endif
 /* Tokens.  */
-#define number 258
-#define id 259
-#define ARITH 260
-#define RELOP 261
-#define if 262
-#define else 263
-#define for 264
-#define while 265
-#define in 266
-#define range 267
+#define NUMBER 258
+#define ID 259
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -79,14 +63,11 @@ union YYSTYPE
 {
 #line 16 "parser.y"
 
-    char[10] num;
-    char[20] id;
-    char[5] relop;
-    char[5] arith;
-    char[50] nonterminal;
-    int keyword;
+    char[100] num;
+    char[100] id;
+    char[100] nonterminal;
 
-#line 90 "y.tab.h"
+#line 71 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
