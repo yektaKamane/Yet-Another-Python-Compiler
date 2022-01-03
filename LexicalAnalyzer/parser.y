@@ -17,7 +17,6 @@
     char[10] num;
     char[20] id;
     char[5] relop;
-    char[5] arith;
     char[50] nonterminal;
     int keyword;
 }
@@ -26,25 +25,10 @@
 
 %token <num> number
 %token <id> id
-%token <arith> ARITH 
 %token <relop> RELOP
-%token <keyword> if
-%token <keyword> else
-%token <keyword> for
-%token <keyword> while
-%token <keyword> in
-%token <keyword> range
+%token <keyword> if else for while in range
 
-%type <nonterminal> block
-%type <nonterminal> stmts
-%type <nonterminal> stmt
-%type <nonterminal> expr
-%type <nonterminal> rel
-%type <nonterminal> add
-%type <nonterminal> term
-%type <nonterminal> power
-%type <nonterminal> factor
-
+%type <nonterminal> block stmts stmt expr rel add term factor
 
 
 %%
@@ -74,20 +58,9 @@ rel     :  rel RELOP add                        {sprintf($$, "t%d", temp_variabl
         ;
 
 
-add     :  add '+' term                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s + %s;\n", $$, $1, $3);}
-	|  add '-' term                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s - %s;\n", $$, $1, $3);}
-        |  term                                 {strcpy($$, $1);}
-        ;
-
-
-term    :  term  ARITH power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s %s %s;\n", $$, $1, $2, $3);}                
-        |  term  '%'   power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s % %s;\n", $$, $1, $3);}
-	|  power                                {strcpy($$ , $1);}
-        ;
-
-
-power   : factor ARITH power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s %s %s;\n", $$, $1, $2, $3);}
-        | factor                                {strcpy($$, $1);}
+add     :  add '+' factor                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s + %s;\n", $$, $1, $3);}
+	    |  add '-' factor                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s - %s;\n", $$, $1, $3);}
+        |  factor                                 {strcpy($$, $1);}
         ;
 
 
