@@ -9,8 +9,13 @@ extern int yylex();
 
 %}
 
-%token LE_OP GE_OP EQ_OP NE_OP
-%token IF, ELSE, WHILE, FOR, IN, RANGE
+%union{
+    
+}
+
+%token<> LE_OP GE_OP EQ_OP NE_OP
+%token<> IF, ELSE, WHILE, FOR, IN, RANGE
+%type<> program, block, stmts, stmt, expr
 
 %%
 
