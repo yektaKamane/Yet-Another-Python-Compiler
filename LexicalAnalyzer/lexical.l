@@ -21,12 +21,8 @@ number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 [\n]                                    {return 0;}
 
 {number}                                {strcpy(yylval.num , yytext); return NUMBER;}
-[-+%(){}]                               {return yytext[0];}
+[-+*/%(){}]                             {return yytext[0];}
 
-"*"                                     |
-"**"                                    |
-"/"                                     |
-"//"                                    {strcpy(yylval.arith , yytext); return ARITH;}
 
 "=="                                    |
 "!="                                    |
