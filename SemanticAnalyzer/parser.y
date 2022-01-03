@@ -10,10 +10,13 @@ extern int yylex();
 %}
 
 %union{
-    
+    char[10] num;
+    char[20] id;
+    char[5] relop;
+    char[5] arith;
 }
 
-%token<> LE_OP GE_OP EQ_OP NE_OP
+%token<> 
 %token<> IF, ELSE, WHILE, FOR, IN, RANGE
 %type<> program, block, stmts, stmt, expr
 

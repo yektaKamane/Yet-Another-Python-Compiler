@@ -8,33 +8,41 @@ extern void yyerror(const char *);  /* prints grammar violation message */
 
 %}
 
-delim     [ \t\n]
+delim     [ \t\r\v\f]
 ws        {delim}+   
 letter    [A-Za-z] 
 digit     [0-9]	
 id        {letter} ({letter} | {digit})*
-number    {digit}+(\.{digit}+)?(E[+\-]?{digit}+)?
+number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 
 %%
 
-ws                          { ; }
+{ws}                                    { ; }
+[\n]                                    {return 0;}
+{id}                                    {strcpy(yylval.id , yytext); return ID;}
+{number}                                {strcpy(yylval.num , yytext); return NUMBER;}
+[+-%(){};]                              {return yytext[0];}
 
-"=="                        {return EQ_OP;}
-"!="                        {return NE_OP;}
-">="                        {return GE_OP;}
-"<="                        {return LE_OP;}
-">"                         {return ">";}
-"<"                         {return "<";}
+"*"                                     |
+"**"                                    |
+"/"                                     |
+"//"                                    {strcpy(yylval.arith , yytext); return ARITH;}
 
-"if"                        {return IF;}
-"else"                      {return ELSE;}
-"while"                     {return WHILE;}
-"for"                       {return FOR;}
-"in"                        {return IN;}
-"range"                     {return RANGE;}
+"=="                                    |
+"!="                                    |
+">="                                    |
+"<="                                    |
+">"                                     |
+"<"                                     {strcpy(yylval.relop , yytext); return RELOP;}
 
-{letter}({letter}|{digit})*                     {return ID;}
-.	
+"if"                                    {return IF;}
+"else"                                  {return ELSE;}
+"while"                                 {return WHILE;}
+"for"                                   {return FOR;}
+"in"                                    {return IN;}
+"range"                                 {return RANGE;}
+
+.	                                    {printf("\nInvalid syntax!");}
 
 
 %%
