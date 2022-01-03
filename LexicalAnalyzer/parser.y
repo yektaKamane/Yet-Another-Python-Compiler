@@ -67,12 +67,8 @@ stmts   : stmts stmt                            {;}
         |                                       {;}
         ;
 
-stmt    : expr                                  {strcpy($$, $1);}
-        |  if '(' expr ')' stmt                     {;}
-        |  if '(' expr ')' stmt else stmt           {;}
-        |  while '(' expr ')' stmt            {;}
-        |  for id in range '(' number ')' stmt      {;}
-        |  block                                {;}
+stmt    : expr ';'                              {strcpy($$, $1);}
+        | block                                 {;}
         ;
 
 expr    :  rel '=' expr                         {strcpy($$, $3); printf("%s = %s ;\n", $1, $3);}

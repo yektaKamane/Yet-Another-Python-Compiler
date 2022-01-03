@@ -12,16 +12,16 @@ delim     [ \t\r\v\f]
 ws        {delim}+   
 letter    [A-Za-z] 
 digit     [0-9]	
-id        {letter} ({letter} | {digit})*
+id        {letter}({letter}|{digit})*
 number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 
 %%
 
 {ws}                                    {;}
 [\n]                                    {return 0;}
-{id}                                    {strcpy(yylval.id , yytext); return ID;}
+
 {number}                                {strcpy(yylval.num , yytext); return NUMBER;}
-[+-%(){};]                              {return yytext[0];}
+[-+%(){}]                               {return yytext[0];}
 
 "*"                                     |
 "**"                                    |
@@ -42,6 +42,8 @@ number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 "in"                                    {return IN;}
 "range"                                 {return RANGE;}
 
+{id}                                    {strcpy(yylval.id , yytext); return ID;}
+
 .	                                    {printf("\nInvalid syntax!");}
 
 
@@ -49,5 +51,5 @@ number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 
 int yywrap(void)        /* called at end of input */
 {
-    return 1;           /* terminate now */
+    return -1;           /* terminate now */
 }
