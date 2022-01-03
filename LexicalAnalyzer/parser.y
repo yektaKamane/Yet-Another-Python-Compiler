@@ -3,13 +3,6 @@
     #include <stdlib.h>
     #include <string.h>
 
-    int IF = 256;
-    int ELSE = 257;
-    int WHILE = 258;
-    int FOR = 259;
-    int RANGE = 260;
-    int IN = 261;
-
     int temp_variable = 1;
 
 /* function prototypes here */

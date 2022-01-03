@@ -72,13 +72,6 @@
     #include <stdlib.h>
     #include <string.h>
 
-    int IF = 256;
-    int ELSE = 257;
-    int WHILE = 258;
-    int FOR = 259;
-    int RANGE = 260;
-    int IN = 261;
-
     int temp_variable = 1;
 
 /* function prototypes here */
@@ -86,7 +79,7 @@
     void yyerror(char *msg);
 
 
-#line 90 "y.tab.c"
+#line 83 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -162,7 +155,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 23 "parser.y"
+#line 16 "parser.y"
 
     char[10] num;
     char[20] id;
@@ -171,7 +164,7 @@ union YYSTYPE
     char[50] nonterminal;
     int keyword;
 
-#line 175 "y.tab.c"
+#line 168 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -547,9 +540,9 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    59,    59,    62,    63,    66,    67,    70,    71,    74,
-      75,    79,    80,    84,    85,    86,    90,    91,    92,    96,
-      97,   101,   102,   103,   104
+       0,    52,    52,    55,    56,    59,    60,    63,    64,    67,
+      68,    72,    73,    77,    78,    79,    83,    84,    85,    89,
+      90,    94,    95,    96,    97
 };
 #endif
 
@@ -1359,145 +1352,145 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 59 "parser.y"
+#line 52 "parser.y"
                                                 {;}
-#line 1365 "y.tab.c"
+#line 1358 "y.tab.c"
     break;
 
   case 3:
-#line 62 "parser.y"
+#line 55 "parser.y"
                                                 {;}
-#line 1371 "y.tab.c"
+#line 1364 "y.tab.c"
     break;
 
   case 4:
-#line 63 "parser.y"
+#line 56 "parser.y"
                                                 {;}
-#line 1377 "y.tab.c"
+#line 1370 "y.tab.c"
     break;
 
   case 5:
-#line 66 "parser.y"
+#line 59 "parser.y"
                                                 {;}
-#line 1383 "y.tab.c"
+#line 1376 "y.tab.c"
     break;
 
   case 6:
-#line 67 "parser.y"
+#line 60 "parser.y"
                                                 {;}
-#line 1389 "y.tab.c"
+#line 1382 "y.tab.c"
     break;
 
   case 7:
-#line 70 "parser.y"
+#line 63 "parser.y"
                                                 {strcpy((yyval.nonterminal), (yyvsp[-1].nonterminal));}
-#line 1395 "y.tab.c"
+#line 1388 "y.tab.c"
     break;
 
   case 8:
-#line 71 "parser.y"
+#line 64 "parser.y"
                                                 {;}
-#line 1401 "y.tab.c"
+#line 1394 "y.tab.c"
     break;
 
   case 9:
-#line 74 "parser.y"
+#line 67 "parser.y"
                                                 {strcpy((yyval.nonterminal), (yyvsp[0].nonterminal)); printf("%s = %s ;\n", (yyvsp[-2].nonterminal), (yyvsp[0].nonterminal));}
-#line 1407 "y.tab.c"
+#line 1400 "y.tab.c"
     break;
 
   case 10:
-#line 75 "parser.y"
+#line 68 "parser.y"
                                                 {strcpy((yyval.nonterminal), (yyvsp[0].nonterminal));}
-#line 1413 "y.tab.c"
+#line 1406 "y.tab.c"
     break;
 
   case 11:
-#line 79 "parser.y"
+#line 72 "parser.y"
                                                 {sprintf((yyval.nonterminal), "t%d", temp_variable++); printf("%s = %s %s %s;\n", (yyval.nonterminal), (yyvsp[-2].nonterminal), (yyvsp[-1].relop), (yyvsp[0].nonterminal));}
-#line 1419 "y.tab.c"
+#line 1412 "y.tab.c"
     break;
 
   case 12:
-#line 80 "parser.y"
+#line 73 "parser.y"
                                                 {strcpy((yyval.nonterminal), (yyvsp[0].nonterminal));}
-#line 1425 "y.tab.c"
+#line 1418 "y.tab.c"
     break;
 
   case 13:
-#line 84 "parser.y"
+#line 77 "parser.y"
                                                 {sprintf((yyval.nonterminal), "t%d", temp_variable++); printf("%s = %s + %s;\n", (yyval.nonterminal), (yyvsp[-2].nonterminal), (yyvsp[0].nonterminal));}
-#line 1431 "y.tab.c"
+#line 1424 "y.tab.c"
     break;
 
   case 14:
-#line 85 "parser.y"
+#line 78 "parser.y"
                                                 {sprintf((yyval.nonterminal), "t%d", temp_variable++); printf("%s = %s - %s;\n", (yyval.nonterminal), (yyvsp[-2].nonterminal), (yyvsp[0].nonterminal));}
-#line 1437 "y.tab.c"
+#line 1430 "y.tab.c"
     break;
 
   case 15:
-#line 86 "parser.y"
+#line 79 "parser.y"
                                                 {strcpy((yyval.nonterminal), (yyvsp[0].nonterminal));}
-#line 1443 "y.tab.c"
+#line 1436 "y.tab.c"
     break;
 
   case 16:
-#line 90 "parser.y"
+#line 83 "parser.y"
                                                 {sprintf((yyval.nonterminal), "t%d", temp_variable++); printf("%s = %s %s %s;\n", (yyval.nonterminal), (yyvsp[-2].nonterminal), (yyvsp[-1].arith), (yyvsp[0].nonterminal));}
-#line 1449 "y.tab.c"
+#line 1442 "y.tab.c"
     break;
 
   case 17:
-#line 91 "parser.y"
+#line 84 "parser.y"
                                                 {sprintf((yyval.nonterminal), "t%d", temp_variable++); printf("%s = %s % %s;\n", (yyval.nonterminal), (yyvsp[-2].nonterminal), (yyvsp[0].nonterminal));}
-#line 1455 "y.tab.c"
+#line 1448 "y.tab.c"
     break;
 
   case 18:
-#line 92 "parser.y"
+#line 85 "parser.y"
                                                 {strcpy((yyval.nonterminal) , (yyvsp[0].nonterminal));}
-#line 1461 "y.tab.c"
+#line 1454 "y.tab.c"
     break;
 
   case 19:
-#line 96 "parser.y"
+#line 89 "parser.y"
                                                 {sprintf((yyval.nonterminal), "t%d", temp_variable++); printf("%s = %s %s %s;\n", (yyval.nonterminal), (yyvsp[-2].nonterminal), (yyvsp[-1].arith), (yyvsp[0].nonterminal));}
-#line 1467 "y.tab.c"
+#line 1460 "y.tab.c"
     break;
 
   case 20:
-#line 97 "parser.y"
+#line 90 "parser.y"
                                                 {strcpy((yyval.nonterminal), (yyvsp[0].nonterminal));}
-#line 1473 "y.tab.c"
+#line 1466 "y.tab.c"
     break;
 
   case 21:
-#line 101 "parser.y"
+#line 94 "parser.y"
                                                 {strcpy((yyval.nonterminal) , (yyvsp[-1].nonterminal));}
-#line 1479 "y.tab.c"
+#line 1472 "y.tab.c"
     break;
 
   case 22:
-#line 102 "parser.y"
+#line 95 "parser.y"
                                                 {strcpy((yyval.nonterminal) , -(yyvsp[0].nonterminal));}
-#line 1485 "y.tab.c"
+#line 1478 "y.tab.c"
     break;
 
   case 23:
-#line 103 "parser.y"
+#line 96 "parser.y"
                                                 {strcpy((yyval.nonterminal) , (yyvsp[0].num));}
-#line 1491 "y.tab.c"
+#line 1484 "y.tab.c"
     break;
 
   case 24:
-#line 104 "parser.y"
+#line 97 "parser.y"
                                                 {strcpy((yyval.nonterminal) , (yyvsp[0].id));}
-#line 1497 "y.tab.c"
+#line 1490 "y.tab.c"
     break;
 
 
-#line 1501 "y.tab.c"
+#line 1494 "y.tab.c"
 
       default: break;
     }
@@ -1729,7 +1722,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 107 "parser.y"
+#line 100 "parser.y"
 
 
 
