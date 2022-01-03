@@ -31,18 +31,27 @@
 
 
 
-%token <num> NUMBER
-%token <id> ID
+%token <num> number
+%token <id> id
 %token <arith> ARITH 
 %token <relop> RELOP
-%token <keyword> IF, ELSE, WHILE, FOR, IN, RANGE
+%token <keyword> if
+%token <keyword> else
+%token <keyword> for
+%token <keyword> while
+%token <keyword> in
+%token <keyword> range
 
-%type <nonterminal> program, block, stmts, stmt, expr
+%type <nonterminal> block
+%type <nonterminal> stmts
+%type <nonterminal> stmt
+%type <nonterminal> expr
+%type <nonterminal> rel
+%type <nonterminal> add
+%type <nonterminal> term
+%type <nonterminal> power
+%type <nonterminal> factor
 
-
-%left '*' '/' '//' '%'
-%left '+' '-'
-%right '**' '='
 
 
 %%
@@ -55,14 +64,14 @@ block   : '{' stmts '}'                         {;}
         ;
 
 stmts   : stmts stmt                            {;}
-        | 
+        |                                       {;}
         ;
 
 stmt    : expr                                  {strcpy($$, $1);}
-        |  if ( expr ) stmt                     {;}
-        |  if ( expr ) stmt else stmt           {;}
-        |  while ( expression ) stmt            {;}
-        |  for id in range ( number ) stmt      {;}
+        |  if '(' expr ')' stmt                     {;}
+        |  if '(' expr ')' stmt else stmt           {;}
+        |  while '(' expr ')' stmt            {;}
+        |  for id in range '(' number ')' stmt      {;}
         |  block                                {;}
         ;
 
@@ -71,31 +80,24 @@ expr    :  rel '=' expr                         {strcpy($$, $3); printf("%s = %s
         ;
 
 
-rel     :  rel '<'  add                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s <  %s;\n", $$, $1, $3);}
-        |  rel "<=" add                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s <= %s;\n", $$, $1, $3);}
-        |  rel '>'  add                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s >  %s;\n", $$, $1, $3);}
-        |  rel ">=" add                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s >= %s;\n", $$, $1, $3);}
-        |  rel "==" add                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s == %s;\n", $$, $1, $3);}
-        |  rel "!=" add                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s != %s;\n", $$, $1, $3);}
+rel     :  rel RELOP add                        {sprintf($$, "t%d", temp_variable++); printf("%s = %s %s %s;\n", $$, $1, $2, $3);}
         |  add                                  {strcpy($$, $1);}
         ;
 
 
 add     :  add '+' term                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s + %s;\n", $$, $1, $3);}
-	    |  add '-' term                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s - %s;\n", $$, $1, $3);}
+	|  add '-' term                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s - %s;\n", $$, $1, $3);}
         |  term                                 {strcpy($$, $1);}
         ;
 
 
-term    :  term  '*'   power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s * %s;\n", $$, $1, $3);}                
-	    |  term  '/'   power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s / %s;\n", $$, $1, $3);}
-        |  term  "//"  power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s // %s;\n", $$, $1, $3);}
+term    :  term  ARITH power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s %s %s;\n", $$, $1, $2, $3);}                
         |  term  '%'   power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s % %s;\n", $$, $1, $3);}
-	    |  power                                {strcpy($$ , $1);}
+	|  power                                {strcpy($$ , $1);}
         ;
 
 
-power   : factor "**" power                     {sprintf($$, "t%d", temp_variable++); printf("%s = %s ** %s;\n", $$, $1, $3);}
+power   : factor ARITH power                    {sprintf($$, "t%d", temp_variable++); printf("%s = %s %s %s;\n", $$, $1, $2, $3);}
         | factor                                {strcpy($$, $1);}
         ;
 

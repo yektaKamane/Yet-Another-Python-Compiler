@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "parser.tab.h"
+#include "y.tab.h"
 
 extern void yyerror(const char *);  /* prints grammar violation message */
 
@@ -17,7 +17,7 @@ number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 
 %%
 
-{ws}                                    { ; }
+{ws}                                    {;}
 [\n]                                    {return 0;}
 {id}                                    {strcpy(yylval.id , yytext); return ID;}
 {number}                                {strcpy(yylval.num , yytext); return NUMBER;}
