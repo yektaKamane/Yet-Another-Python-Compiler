@@ -3,9 +3,10 @@
 
 
 ## To Run 
-After installing flex follow below commands:
+After installing flex and bison follow below commands:
 
 ``` 
-$ flex python.l
-$ gcc  lex.yy.c -o calc
-$ .\calc.exe
+$ bison -d  parser.y
+$ flex lexical.l
+$ gcc lex.yy.c parser.tab.c -o ALYEK
+$ ./ALYEK < input.c | cat > output.c
