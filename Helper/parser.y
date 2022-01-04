@@ -2,7 +2,6 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include <ctype.h>
 
 	int whileLableCounter = 1;
 	int ifLableCounter = 1;
@@ -95,8 +94,8 @@ add     : add '+' term            {sprintf($$, "t%d", tempVar++); printf("%s = %
         | term                    {strcpy($$, $1);}
         ;
 
-term    : term '*' factor         {sprintf($$, "t%d", tempVar++); fprintf("%s = %s * %s;\n", $$, $1, $3);}
-        | term '/' factor         {sprintf($$, "t%d", tempVar++); fprintf("%s = %s / %s;\n", $$, $1, $3);}
+term    : term '*' factor         {sprintf($$, "t%d", tempVar++); printf("%s = %s * %s;\n", $$, $1, $3);}
+        | term '/' factor         {sprintf($$, "t%d", tempVar++); printf("%s = %s / %s;\n", $$, $1, $3);}
         | factor                  {strcpy($$, $1);}
         ;
 
@@ -118,15 +117,7 @@ int yywrap(){
 
 int main() {
 
-    FILE* yyin;
-    yyin = fopen("input.txt","r");
-    FILE* yyout;
-    yyparse();
-    yyout = fopen("201914044_Output.txt", "w");   
-    yylex();        //This runs the Rule section  
-    fclose(yyin);
-    fclose(yyout);
-
+	yyparse();
 	return 0;
 }
 
