@@ -57,8 +57,7 @@ extern int yydebug;
     FOR = 263,
     IN = 264,
     RANGE = 265,
-    RELOP = 266,
-    UMINUS = 267
+    RELOP = 266
   };
 #endif
 
@@ -74,7 +73,7 @@ union YYSTYPE
 	char num[200];
 	char nont[200];
 
-#line 78 "parser.tab.h"
+#line 77 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
