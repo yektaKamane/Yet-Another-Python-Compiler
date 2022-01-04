@@ -1848,18 +1848,19 @@ void yyfree (void * ptr )
 #line 52 "lexical.l"
 
 
+
 /* User code Segment */
 
-/* int main() {
+ /* int main() {
     yyin  = fopen("input.txt","r");
     yyout = fopen("output.txt", "w");   
 
-    /* runs the Rule section */
-    /* yylex();          */
+    //runs the Rule section
+    yylex();
 
 
-    /* fclose(yyin); */
-    /* fclose(yyout); */
+    fclose(yyin);
+    fclose(yyout);
 
-    /* return 0; */
-//} */
+    return 0;
+}  */

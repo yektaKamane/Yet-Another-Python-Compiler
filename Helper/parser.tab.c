@@ -71,6 +71,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <ctype.h>
 
 	int whileLableCounter = 1;
 	int ifLableCounter = 1;
@@ -81,7 +82,7 @@
     void yyerror(char *msg);
 
 
-#line 85 "parser.tab.c"
+#line 86 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -145,7 +146,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "parser.y"
+#line 20 "parser.y"
 
     char relo[200];
 	int labelCounter;
@@ -153,7 +154,7 @@ union YYSTYPE
 	char num[200];
 	char nont[200];
 
-#line 157 "parser.tab.c"
+#line 158 "parser.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -529,8 +530,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    44,    44,    47,    50,    51,    54,    55,    56,    57,
-      59,    60,    61,    63,    56,    66,    67,    69,    66,    73,
+       0,    45,    45,    48,    51,    52,    55,    56,    57,    58,
+      59,    60,    61,    63,    57,    66,    67,    69,    66,    73,
       77,    78,    79,    80,    85,    86,    89,    90,    93,    94,
       95,    98,    99,   100,   103,   104,   105
 };
@@ -1356,45 +1357,44 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 44 "parser.y"
+#line 45 "parser.y"
                                   {;}
-#line 1362 "parser.tab.c"
+#line 1363 "parser.tab.c"
     break;
 
   case 3:
-#line 47 "parser.y"
+#line 48 "parser.y"
                                   {printf("\n");}
-#line 1368 "parser.tab.c"
+#line 1369 "parser.tab.c"
     break;
 
   case 4:
-#line 50 "parser.y"
+#line 51 "parser.y"
                                   {;}
-#line 1374 "parser.tab.c"
+#line 1375 "parser.tab.c"
     break;
 
   case 6:
-#line 54 "parser.y"
+#line 55 "parser.y"
                                       {printf("\n");}
-#line 1380 "parser.tab.c"
+#line 1381 "parser.tab.c"
     break;
 
   case 7:
-#line 55 "parser.y"
+#line 56 "parser.y"
                                       {printf(" ");}
-#line 1386 "parser.tab.c"
+#line 1387 "parser.tab.c"
     break;
 
   case 8:
-#line 56 "parser.y"
+#line 57 "parser.y"
                                   {printf("IF_BEGIN_%d:\n", (yyvsp[0].labelCounter)=ifLableCounter++); printf("\n");}
-#line 1392 "parser.tab.c"
+#line 1393 "parser.tab.c"
     break;
 
   case 9:
-#line 57 "parser.y"
-                                  {printf("IF_CONDITION_%d:\n", (yyvsp[-2].labelCounter));
-                                   printf("{\n");}
+#line 58 "parser.y"
+                                  {printf("IF_CONDITION_%d:\n", (yyvsp[-2].labelCounter));}
 #line 1399 "parser.tab.c"
     break;
 
@@ -1430,19 +1430,19 @@ yyreduce:
 
   case 15:
 #line 66 "parser.y"
-                                  {printf("WHILE_BEGIN_%d:\n", (yyvsp[0].labelCounter)=whileLableCounter++); printf("{\n");}
+                                  {printf("WHILE_BEGIN_%d:\n", (yyvsp[0].labelCounter)=whileLableCounter++);}
 #line 1435 "parser.tab.c"
     break;
 
   case 16:
 #line 67 "parser.y"
-                                  {printf("WHILE_CONDITION_%d:\n", (yyvsp[-2].labelCounter)); printf("{\n");}
+                                  {printf("WHILE_CONDITION_%d:\n", (yyvsp[-2].labelCounter));}
 #line 1441 "parser.tab.c"
     break;
 
   case 17:
 #line 69 "parser.y"
-                                  {printf("if (%s==0) goto WHILE_END_%d;\n", (yyvsp[-1].nont), (yyvsp[-5].labelCounter)); printf("goto WHILE_CODE_%d;\n", (yyvsp[-5].labelCounter));
+                                 {printf("if (%s==0) goto WHILE_END_%d;\n", (yyvsp[-1].nont), (yyvsp[-5].labelCounter)); printf("goto WHILE_CODE_%d;\n", (yyvsp[-5].labelCounter));
                                    printf("WHILE_CODE_%d:\n", (yyvsp[-5].labelCounter));}
 #line 1448 "parser.tab.c"
     break;
@@ -1527,13 +1527,13 @@ yyreduce:
 
   case 31:
 #line 98 "parser.y"
-                                  {sprintf((yyval.nont), "t%d", tempVar++); printf("%s = %s * %s;\n", (yyval.nont), (yyvsp[-2].nont), (yyvsp[0].nont));}
+                                  {sprintf((yyval.nont), "t%d", tempVar++); fprintf("%s = %s * %s;\n", (yyval.nont), (yyvsp[-2].nont), (yyvsp[0].nont));}
 #line 1532 "parser.tab.c"
     break;
 
   case 32:
 #line 99 "parser.y"
-                                  {sprintf((yyval.nont), "t%d", tempVar++); printf("%s = %s / %s;\n", (yyval.nont), (yyvsp[-2].nont), (yyvsp[0].nont));}
+                                  {sprintf((yyval.nont), "t%d", tempVar++); fprintf("%s = %s / %s;\n", (yyval.nont), (yyvsp[-2].nont), (yyvsp[0].nont));}
 #line 1538 "parser.tab.c"
     break;
 
@@ -1808,7 +1808,17 @@ int yywrap(){
 
 int main() {
 
-	yyparse();
+	
+
+    FILE* yyin;
+    yyin = fopen("input.txt","r");
+    FILE* yyout;
+    yyparse();
+    yyout = fopen("201914044_Output.txt", "w");   
+    yylex();        //This runs the Rule section  
+    fclose(yyin);
+    fclose(yyout);
+
 	return 0;
 }
 
