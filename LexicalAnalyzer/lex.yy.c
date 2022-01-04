@@ -373,7 +373,7 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    1,    1,    1,    1,    1,    1,    1,    4,
         4,    4,    5,    1,    5,    6,    4,    7,    7,    7,
-        7,    7,    7,    7,    7,    7,    7,    1,    1,    1,
+        7,    7,    7,    7,    7,    7,    7,    1,    4,    1,
         4,    1,    1,    1,    8,    8,    8,    8,    9,    8,
         8,    8,    8,    8,    8,    8,    8,    8,    8,    8,
         8,    8,    8,    8,    8,    8,    8,    8,    8,    8,
@@ -745,27 +745,27 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "lexical.l"
-{strcpy(yylval.num , yytext); return NUMBER;}
+#line 22 "lexical.l"
+{yylval.num = malloc(100); strcpy(yylval.num , yytext); return NUMBER;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 "lexical.l"
+#line 23 "lexical.l"
 {return yytext[0];}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 27 "lexical.l"
-{strcpy(yylval.id , yytext); return ID;}
+#line 24 "lexical.l"
+{yylval.id = malloc(100); strcpy(yylval.id , yytext); return ID;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 29 "lexical.l"
+#line 26 "lexical.l"
 {printf("\nInvalid syntax!");}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 32 "lexical.l"
+#line 29 "lexical.l"
 ECHO;
 	YY_BREAK
 #line 772 "lex.yy.c"
@@ -1773,7 +1773,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 32 "lexical.l"
+#line 29 "lexical.l"
 
 
 int yywrap(void)        /* called at end of input */

@@ -28,24 +28,24 @@
 
 %%
 
-program : expr                                 {;}
+program : expr ';'                              {;}
         ;
 
 
-expr    :  add '=' expr                         {$$ = $3; printf("%s = %s ;\n", $1, $3);}
+expr    :  add '=' expr                         {$$ = $3; printf("%s = %s;\n", $1, $3);}
         |  add                                  {$$ = $1;}
         ;
 
 
 
-add     :  add '+' factor                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s + %s;\n", $$, $1, $3);}
-	|  add '-' factor                         {sprintf($$, "t%d", temp_variable++); printf("%s = %s - %s;\n", $$, $1, $3);}
-        |  factor                                 {$$ = $1;}
+add     :  add '+' factor                       {sprintf($$, "t%d", temp_variable++); printf("%s = %s + %s;\n", $$, $1, $3);}
+	    |  add '-' factor                       {sprintf($$, "t%d", temp_variable); printf("%s = %s - %s;\n", $$, $1, $3);}
+        |  factor                               {$$ = $1;}
         ;
 
 
 factor  : '(' expr ')'                          {$$ = $2;}
-        | '-' factor                            {$$ = $2;}
+        | '-' factor                            {char* temp; temp = malloc(40); strcpy(temp, "-"); strcat(temp, $2); strcpy($$ ,temp);}
         | NUMBER                                {$$ = $1;}
         | ID                                    {$$ = $1;}
         ;

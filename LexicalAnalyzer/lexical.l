@@ -19,31 +19,9 @@ number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 
 {ws}                                    {;}
 [\n]                                    {return 0;}
-
-{number}                                {strcpy(yylval.num , yytext); return NUMBER;}
-<<<<<<< HEAD
-[-+*/(){}=]                             {return yytext[0];}
-
-=======
-[-+*/%(){}]                             {return yytext[0];}
-
-
-"=="                                    |
-"!="                                    |
-">="                                    |
-"<="                                    |
-">"                                     |
-"<"                                     {strcpy(yylval.relop , yytext); return RELOP;}
-
-"if"                                    {return IF;}
-"else"                                  {return ELSE;}
-"while"                                 {return WHILE;}
-"for"                                   {return FOR;}
-"in"                                    {return IN;}
-"range"                                 {return RANGE;}
->>>>>>> 2c4dbd8d15c35d1a752bb01c6b037559271cad69
-
-{id}                                    {strcpy(yylval.id , yytext); return ID;}
+{number}                                {yylval.num = malloc(100); strcpy(yylval.num , yytext); return NUMBER;}
+[-+*/(){}=;]                             {return yytext[0];}
+{id}                                    {yylval.id = malloc(100); strcpy(yylval.id , yytext); return ID;}
 
 .	                                    {printf("\nInvalid syntax!");}
 
