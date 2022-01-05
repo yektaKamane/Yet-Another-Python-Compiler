@@ -62,12 +62,6 @@ stmts   : stmts  stmt                 { ; }
 stmt    : optexpr ';'	              { printf(";\n"); }
         | expr    ';'	              { printf(" "); }
 
-        |IF                           { printf("IF_BEGIN_%d:\n", $1=ifLableCounter++); printf("\n"); }
-        '('                           { printf("IF_CONDITION_%d:\n", $1); printf("\n"); }
-        expr ')'                      { printf("ifTrue (%s) goto ELSE_Label_%d;\n", $5, $1); printf("goto IF_CODE_%d;\n", $1); printf("\n"); }
-                                      { printf("IF_CODE_%d:\n", $1); }
-        stmt                          { printf("ELSE_Label_%d:\n", $1); printf("\n"); }
-
 
         |IF                           { printf("IF_BEGIN_%d:\n", $1=ifLableCounter++); printf("\n"); }
         '('                           { printf("IF_CONDITION_%d:\n", $1); printf("\n"); }
@@ -75,7 +69,7 @@ stmt    : optexpr ';'	              { printf(";\n"); }
                                       { printf("IF_CODE_%d:\n", $1); }
         stmt                          { printf("goto ELSE_END_%d;\n", $1); }
 
-        ELSE                          { printf("ELSE_CODE_%d:\n", $1); } 
+        |ELSE                          { printf("ELSE_CODE_%d:\n", $1); } 
         stmt                          { printf("ELSE_END_%d:\n", $1); printf("\n"); } 
         
 
@@ -137,4 +131,3 @@ int yywrap() {
 int main() {
    yyparse();
 }
-

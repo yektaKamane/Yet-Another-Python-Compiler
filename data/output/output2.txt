@@ -1,0 +1,18 @@
+IF_BEGIN_1:
+
+IF_CONDITION_1:
+
+t1 = x > 5;
+ifTrue (t1) goto ELSE_CODE_1;
+goto IF_CODE_1;
+
+IF_CODE_1:
+a = 1;
+ 
+goto ELSE_END_1;
+ELSE_CODE_49:
+a = 3;
+ 
+ELSE_END_49:
+
+
