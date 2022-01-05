@@ -1,8 +1,12 @@
 # Yet Another Python Compiler
 
+## Linux
+``` 
+$ sudo apt-get update
+$ sudo apt-get install flex
+$ sudo apt-get install bison
 
-
-## To Run 
+## Run 
 After installing flex and bison follow below commands:
 
 ``` 
