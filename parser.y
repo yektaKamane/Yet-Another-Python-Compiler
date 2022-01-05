@@ -6,6 +6,7 @@
     #include <ctype.h>
 
     int whileLableCounter = 1;
+    int forLableCounter=1;
     int ifLableCounter = 1;
     int tempVar = 1;
     int elseLableCounter = 1;
@@ -36,7 +37,7 @@
 %token <labelCounter> IF ELSE WHILE FOR IN RANGE
 %token <relo> RELOP
 
-%type <nonTerminal>  IDs optexpr expr rel add term factor
+%type <nonTerminal>  IDs optexpr expr rel add term factor stmt
 
 /* Precedence Operator */
 
@@ -65,17 +66,24 @@ stmt    : optexpr ';'	              { printf(";\n"); }
 
         |IF                           { printf("IF_BEGIN_%d:\n", $1=ifLableCounter++); printf("\n"); }
         '('                           { printf("IF_CONDITION_%d:\n", $1); printf("\n"); }
-        expr ')'                      { printf("ifTrue (%s) goto ELSE_CODE_%d;\n", $5, $1); printf("goto IF_CODE_%d;\n", $1); printf("\n"); }
+        expr ')'                      { printf("if False (%s) goto ELSE_CODE_%d;\n", $5, $1); printf("goto IF_CODE_%d;\n", $1); printf("\n"); }
                                       { printf("IF_CODE_%d:\n", $1); }
         stmt                          { printf("goto ELSE_END_%d;\n", $1); }
 
-        |ELSE                          { printf("ELSE_CODE_%d:\n", $1); } 
+        |ELSE                         { printf("ELSE_CODE_%d:\n", $1); } 
         stmt                          { printf("ELSE_END_%d:\n", $1); printf("\n"); } 
         
+        |FOR                          { printf("FOR_BEGIN_%d:\n", $1=forLableCounter++); printf("\n"); } 
+         '(' optexpr ';'                                             
+             optexpr ';'
+             optexpr    
+         ')'                          { ;}
+         stmt                         { ;}
+
 
         |WHILE                        { printf("WHILE_BEGIN_%d:\n", $1=whileLableCounter++); printf("\n"); } 
         '('                           { printf("WHILE_CONDITION_%d:\n", $1); printf("\n"); }
-        expr ')'                      { printf("ifTrue (%s) goto WHILE_END_%d;\n", $5, $1); printf("goto WHILE_CODE_%d;\n", $1); printf("}\n"); printf("WHILE_CODE_%d:\n", $1); } 
+        expr ')'                      { printf("if False (%s) goto WHILE_END_%d;\n", $5, $1); printf("goto WHILE_CODE_%d;\n", $1); printf("\n"); printf("WHILE_CODE_%d:\n", $1); } 
         stmt                          { printf("goto WHILE_CONDITION_%d;\n", $1); printf("\n"); printf("WHILE_END_%d:\n", $1); }
 
         |block                        

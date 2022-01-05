@@ -1,0 +1,42 @@
+for i in range(5):
+    c = c + 10;
+
+for (i=0; i<5; i++){
+
+}
+
+
+FOR_BEGIN_1:
+i = 0;
+FOR_CONDITION_1:
+t1 = i < 5;
+if(t1==0) goto FOR_END_1;
+goto FOR_CODE_1;
+FOR_STEP_1:
+t2 = i + 1;
+i = t2;
+goto FOR_CONDITION_1;
+FOR_CODE_1:
+t3 = c + 10;
+c = t3;
+goto FOR_STEP_1;
+FOR_END_1:
+
+
+{ printf("if(%s==0) goto FOR_END_%d;\n", $7, $1); printf("goto FOR_CODE_%d;\n", $1); printf("\n"); }
+
+
+for (expr; expr; expr){
+    stmt
+}
+
+
+stmt -> for id in range (num)
+    | for exp 
+
+id in range(num) === id < num
+
+
+{ sprintf($3, "t%d", tempVar++);
+                                        printf("%s = % < %s", $3, $2, $6);
+                                        printf("%s = 0;", $2);}
