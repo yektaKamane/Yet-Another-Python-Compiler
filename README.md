@@ -8,7 +8,6 @@ To install Flex and Bison run the below commands in a terminal
 $ sudo apt-get update
 $ sudo apt-get install flex
 $ sudo apt-get install bison
-
 ```
 
 ### Run 
@@ -19,5 +18,4 @@ $ bison -d  parser.y
 $ flex lexical.l
 $ gcc lex.yy.c parser.tab.c -o ALYEK
 $ ./ALYEK < input.txt | cat > output.txt
-
 ```
