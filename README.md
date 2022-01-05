@@ -17,8 +17,8 @@ $ flex lexical.l
 $ gcc lex.yy.c parser.tab.c -o compiler
 $ ./compiler < ./data/input/input1.txt | cat > ./data/output/output1.txt
 ```
-
-Alternately, you can use the commands in the makefile.
+\
+Alternately, you can use the commands in the makefile.\
 To build the program, execute the command below: 
 ``` 
 $ make all
