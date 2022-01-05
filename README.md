@@ -1,7 +1,8 @@
 # Yet Another Python Compiler
-Simple But Hope to Create Precise compiler to Convert Python Syntax Code to Three-Address-Code(TAC).
+The front-end of a compiler that converts python code to Three-Address-Code(TAC).
 
-### Ubuntu
+### Installation
+To install Flex and Bison run the below commands in a terminal
 
 ``` 
 $ sudo apt-get update
