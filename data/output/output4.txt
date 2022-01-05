@@ -11,7 +11,7 @@ FOR_BEGIN_1:
 i = 0;
 FOR_CONDITION_1:
 t2 = i < 5;
-ifFalse (t2 = 0) goto FOR_END_1;
+ifFalse (t2) goto FOR_END_1;
 goto FOR_CODE_1:
 FOR_STEP_1:
 t3 = i + 1;
@@ -20,14 +20,14 @@ goto FOR_CONDITION_1:
 FOR_CODE_1:
 t4 = c + 10;
 c = t4;
- 
+
 goto FOR_STEP_1;
 FOR_END_1:
 
 goto ELSE_END_1;
 ELSE_CODE_12337:
 c = 11;
- 
+
 ELSE_END_12337:
 
 

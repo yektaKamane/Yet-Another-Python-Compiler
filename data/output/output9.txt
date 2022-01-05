@@ -1,0 +1,61 @@
+t1 = b - 2;
+t2 = t1 + -c;
+a = t2;
+t3 = b // -4;
+t4 = t3 * 3;
+t5 = a - t4;
+b = t5;
+t6 = 2 ** b;
+t7 = d - t6;
+c = t7;
+FOR_BEGIN_1:
+item = 0;
+FOR_CONDITION_1:
+t8 = item < 7;
+ifFalse (t8) goto FOR_END_1;
+goto FOR_CODE_1:
+FOR_STEP_1:
+t9 = item + 1;
+item = t9;
+goto FOR_CONDITION_1:
+FOR_CODE_1:
+t10 = a + 10;
+c = t10;
+IF_BEGIN_1:
+
+IF_CONDITION_1:
+
+t11 = a < 6;
+ifTrue (t11) goto ELSE_CODE_1;
+goto IF_CODE_1;
+
+IF_CODE_1:
+t12 = a ** 2;
+t13 = t12 // -5;
+a = t13;
+
+goto ELSE_END_1;
+
+goto FOR_STEP_1;
+FOR_END_1:
+WHILE_BEGIN_1:
+
+WHILE_CONDITION_1:
+
+t14 = b ** 2;
+t15 = a < t14;
+ifFalse (t15) goto WHILE_END_1;
+goto WHILE_CODE_1;
+}
+WHILE_CODE_1:
+t16 = b // a;
+t17 = t16 + -2;
+b = t17;
+t18 = 2 * 3;
+t19 = b + t18;
+d = t19;
+
+goto WHILE_CONDITION_1;
+
+WHILE_END_1:
+

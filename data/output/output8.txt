@@ -1,0 +1,41 @@
+IF_BEGIN_1:
+
+IF_CONDITION_1:
+
+t1 = a < 1;
+ifTrue (t1) goto ELSE_CODE_1;
+goto IF_CODE_1;
+
+IF_CODE_1:
+b = 4;
+WHILE_BEGIN_1:
+
+WHILE_CONDITION_1:
+
+t2 = d < 3;
+ifFalse (t2) goto WHILE_END_1;
+goto WHILE_CODE_1;
+}
+WHILE_CODE_1:
+t3 = a ** 2;
+a = t3;
+t4 = b // a;
+t5 = t4 + -4;
+c = t5;
+t6 = d - 1;
+d = t6;
+
+goto WHILE_CONDITION_1;
+
+WHILE_END_1:
+
+goto ELSE_END_1;
+ELSE_CODE_49:
+b = 5;
+t7 = b ** 2;
+t8 = t7 // -4;
+a = t8;
+
+ELSE_END_49:
+
+

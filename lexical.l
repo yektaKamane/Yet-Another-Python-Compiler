@@ -29,8 +29,12 @@ number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 
 {ws}                                    { ; }
 
+"**"                        			{strcpy(yylval.arithP, yytext); return ARITHP;}
+"//"                        			{strcpy(yylval.arithD, yytext); return ARITHD;}
+
 {number}  								{strcpy(yylval.num , yytext); return NUM;}
-[-+/*=,;(){}]                           {return yytext[0];}
+[-+/*=,;(){}%]                          {return yytext[0];}
+
 
 "=="                        			|
 "!="                        			|
