@@ -5,17 +5,22 @@
     #include <stdarg.h>
     #include <ctype.h>
 
-    int whileLableCounter = 1;
-    int forLableCounter=1;
-    int ifLableCounter = 1;
     int tempVar = 1;
+    int whileLableCounter = 1;
+    int ifLableCounter = 1;
     int elseLableCounter = 1;
+    int forLabelCounter = 1;
 
-   /* prints grammar violation message */
+    char Myvar[40];
+    char MyNum[40];
+
+
 
     extern int yylex();
     extern FILE *yyin;
     extern FILE *yyout;
+
+    /* prints grammar violation message */
     void yyerror(char *msg);
 
 %}
@@ -37,7 +42,7 @@
 %token <labelCounter> IF ELSE WHILE FOR IN RANGE
 %token <relo> RELOP
 
-%type <nonTerminal>  IDs optexpr expr rel add term factor stmt
+%type <nonTerminal>  IDs optexpr expr rel add term factor
 
 /* Precedence Operator */
 
@@ -66,24 +71,31 @@ stmt    : optexpr ';'	              { printf(";\n"); }
 
         |IF                           { printf("IF_BEGIN_%d:\n", $1=ifLableCounter++); printf("\n"); }
         '('                           { printf("IF_CONDITION_%d:\n", $1); printf("\n"); }
-        expr ')'                      { printf("if False (%s) goto ELSE_CODE_%d;\n", $5, $1); printf("goto IF_CODE_%d;\n", $1); printf("\n"); }
+        expr ')'                      { printf("ifTrue (%s) goto ELSE_CODE_%d;\n", $5, $1); printf("goto IF_CODE_%d;\n", $1); printf("\n"); }
                                       { printf("IF_CODE_%d:\n", $1); }
         stmt                          { printf("goto ELSE_END_%d;\n", $1); }
 
         |ELSE                         { printf("ELSE_CODE_%d:\n", $1); } 
         stmt                          { printf("ELSE_END_%d:\n", $1); printf("\n"); } 
-        
-        |FOR                          { printf("FOR_BEGIN_%d:\n", $1=forLableCounter++); printf("\n"); } 
-         '(' optexpr ';'                                             
-             optexpr ';'
-             optexpr    
-         ')'                          { ;}
-         stmt                         { ;}
 
+        |FOR                          { printf("FOR_BEGIN_%d:\n", $1=forLabelCounter++); }
+          optexpr                     { ; }
+          IN                           
+          RANGE
+          '('                               
+          optexpr                         
+          ')'                         { printf("FOR_CONDITION_%d:\n", $1); sprintf($3, "t%d", tempVar++); printf("%s = %s < %s;\n", $3, Myvar, MyNum);  }
+                                      { printf("ifFalse (%s = 0) goto FOR_END_%d;\n", $3, $1);  printf("goto FOR_CODE_%d:\n", $1); 
+                                        printf("FOR_STEP_%d:\n", $1);   sprintf($3, "t%d", tempVar++);   printf("%s = %s + 1;\n", $3, Myvar);
+                                        printf("%s = %s;\n", Myvar,$3); printf("goto FOR_CONDITION_%d:\n", $1);  printf("FOR_CODE_%d:\n", $1); }                                                            
+          stmt                         
+                                      
+                                      { printf("goto FOR_STEP_%d;\n", $1); printf("FOR_END_%d:\n", $1); }
+        
 
         |WHILE                        { printf("WHILE_BEGIN_%d:\n", $1=whileLableCounter++); printf("\n"); } 
         '('                           { printf("WHILE_CONDITION_%d:\n", $1); printf("\n"); }
-        expr ')'                      { printf("if False (%s) goto WHILE_END_%d;\n", $5, $1); printf("goto WHILE_CODE_%d;\n", $1); printf("\n"); printf("WHILE_CODE_%d:\n", $1); } 
+        expr ')'                      { printf("ifFalse (%s) goto WHILE_END_%d;\n", $5, $1); printf("goto WHILE_CODE_%d;\n", $1); printf("}\n"); printf("WHILE_CODE_%d:\n", $1); } 
         stmt                          { printf("goto WHILE_CONDITION_%d;\n", $1); printf("\n"); printf("WHILE_END_%d:\n", $1); }
 
         |block                        
@@ -91,6 +103,8 @@ stmt    : optexpr ';'	              { printf(";\n"); }
 
 optexpr:    
         expr                         { strcpy($$, $1); }
+        | ID                         { strcpy($$, $1); printf("%s = 0;\n", $1); strcpy(Myvar, $1);}
+        | NUM                        { strcpy($$, $1); strcpy(MyNum, $1);}
         |%empty                      { ; }
         ;
 

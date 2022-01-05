@@ -1,27 +1,33 @@
-x = 1;
- IF_BEGIN_1:
+IF_BEGIN_1:
 
 IF_CONDITION_1:
 
-t1 = x < 50;
-if False (t1) goto ELSE_CODE_1;
+t1 = x == 2;
+ifTrue (t1) goto ELSE_CODE_1;
 goto IF_CODE_1;
 
 IF_CODE_1:
-WHILE_BEGIN_1:
-
-WHILE_CONDITION_1:
-
-t2 = x >= 0;
-if False (t2) goto WHILE_END_1;
-goto WHILE_CODE_1;
-
-WHILE_CODE_1:
-a = 3.0;
+FOR_BEGIN_1:
+i = 0;
+FOR_CONDITION_1:
+t2 = i < 5;
+ifFalse (t2 = 0) goto FOR_END_1;
+goto FOR_CODE_1:
+FOR_STEP_1:
+t3 = i + 1;
+i = t3;
+goto FOR_CONDITION_1:
+FOR_CODE_1:
+t4 = c + 10;
+c = t4;
  
-goto WHILE_CONDITION_1;
-
-WHILE_END_1:
+goto FOR_STEP_1;
+FOR_END_1:
 
 goto ELSE_END_1;
+ELSE_CODE_12337:
+c = 11;
+ 
+ELSE_END_12337:
+
 

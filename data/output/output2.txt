@@ -3,7 +3,7 @@ IF_BEGIN_1:
 IF_CONDITION_1:
 
 t1 = x > 5;
-if False (t1) goto ELSE_CODE_1;
+ifTrue (t1) goto ELSE_CODE_1;
 goto IF_CODE_1;
 
 IF_CODE_1:
