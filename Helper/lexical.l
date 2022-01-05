@@ -1,20 +1,23 @@
 %{
-/* defination */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+	/* defination */
 
-#include "parser.tab.h"
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    #include <stdarg.h>
+    #include <ctype.h>
 
-/* prints grammar violation message */
-extern void yyerror(const char *);  
+    #include "parser.tab.h"
+
+	/* prints grammar violation message */
+	extern void yyerror(const char *);  
 
 %}
 
 
-delim     [ \t\r\v\f]
-ws        {delim}+   
+delim     [ \t\r\v\f\n]
+ws        {delim}+  
 letter    [A-Za-z] 
 digit     [0-9]	
 id        {letter}({letter}|{digit})*
@@ -24,46 +27,29 @@ number    {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 /* pattern actions/Rules */
 %%
 
+{ws}                                    { ; }
 
-{ws}                                    {;}
-[\n]                                    {return 0;}
+{number}  								{strcpy(yylval.num , yytext); return NUM;}
+[-+/*=,;(){}]                           {return yytext[0];}
 
-{digit}+(\.{digit}+)?(E[+\-]?{digit}+)?         {strcpy(yylval.num , yytext); return NUM;}
-[-+/*=,;(){}]                                  {return yytext[0];}
-
-"=="                        |
-"!="                        |
-">"                         |
-">="                        |
-"<"                         |
-"<="                        {strcpy(yylval.relo, yytext); return RELOP;}
+"=="                        			|
+"!="                        			|
+">"                         			|
+">="                        			|
+"<"                         			|
+"<="                        			{strcpy(yylval.relo, yytext); return RELOP;}
 
 
-"if"                        {return IF;}
-"else"                      {return ELSE;}
-"while"                     {return WHILE;}
-"for"                       {return FOR;}
-"in"                        {return IN;}
-"range"                     {return RANGE;}
+"if"                        			{return IF;}
+"else"                      			{return ELSE;}
+"while"                     			{return WHILE;}
+"for"                       			{return FOR;}
+"in"                        			{return IN;}
+"range"                     			{return RANGE;}
 
-{id}                        {strcpy(yylval.id , yytext); return ID;}
-.					        {printf("unexpected character\n");}
+{id}                        			{strcpy(yylval.id , yytext); return ID;}
+.					        			{printf("Error occured ...\n");}
 
 %%
 
-
-/* User code Segment */
-
- /* int main() {
-    yyin  = fopen("input.txt","r");
-    yyout = fopen("output.txt", "w");   
-
-    //runs the Rule section
-    yylex();
-
-
-    fclose(yyin);
-    fclose(yyout);
-
-    return 0;
-}  */
+/* User Code Segment */

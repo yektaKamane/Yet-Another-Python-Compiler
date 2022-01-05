@@ -2,13 +2,19 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <stdarg.h>
+    #include <ctype.h>
 
-	int whileLableCounter = 1;
-	int ifLableCounter = 1;
-	int tempVar = 1;
-	int elseLableCounter = 1;
+    int whileLableCounter = 1;
+    int ifLableCounter = 1;
+    int tempVar = 1;
+    int elseLableCounter = 1;
+
+   /* prints grammar violation message */
 
     extern int yylex();
+    extern FILE *yyin;
+    extern FILE *yyout;
     void yyerror(char *msg);
 
 %}
@@ -18,10 +24,10 @@
 // for each type we need it in union
 %union{
     char relo[200];
-	int labelCounter;
-	char id[200];
-	char num[200];
-	char nont[200];
+    int labelCounter;
+    char id[200];
+    char num[200];
+    char nont[200];
 }
 
 
@@ -44,7 +50,8 @@
 Program : block                   {;}
         ;
 
-block   : stmts                   {printf("\n");}
+block   : '{' stmts '}'               {printf("\n");}
+        | stmts                      {printf("\n");}
         ;
 
 stmts   : stmts  stmt             {;}
@@ -111,13 +118,12 @@ void yyerror(char *msg) {
     exit(1);
 }
 
-int yywrap(){
-	return 1;
+
+int yywrap() {
+    return 1;
 }
 
 int main() {
-
-	yyparse();
-	return 0;
+   yyparse();
 }
 
