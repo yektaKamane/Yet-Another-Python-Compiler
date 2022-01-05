@@ -1,6 +1,6 @@
 # Yet Another Python Compiler
 
-### Linux Ubuntu Distribution
+### Ubuntu
 
 ``` 
 $ sudo apt-get update
