@@ -21,13 +21,13 @@
 
 %start Program
 
-// for each type we need it in union
+
 %union{
-    char relo[200];
     int labelCounter;
-    char id[200];
-    char num[200];
-    char nont[200];
+    char relo[500];
+    char id[500];
+    char num[500];
+    char nonTerminal[500];
 }
 
 
@@ -36,79 +36,90 @@
 %token <labelCounter> IF ELSE WHILE FOR IN RANGE
 %token <relo> RELOP
 
-%type <nont>  IDs  expr rel add term factor
+%type <nonTerminal>  IDs optexpr expr rel add term factor
 
-/* priorities */
+/* Precedence Operator */
 
 %right '='
-%left RELOP
-%left '-' '+'
-%left '*' '/'
+%left  RELOP
+%left  '-' '+'
+%left  '*' '/'
+%left  UMINUS 
 
 %%
 
-Program : block                   {;}
+Program : block                       { ; }
         ;
 
-block   : '{' stmts '}'               {printf("\n");}
-        | stmts                      {printf("\n");}
+block   : '{' stmts '}'               { printf("\n"); }
+        | stmts                       { printf("\n"); }
         ;
 
-stmts   : stmts  stmt             {;}
-        | %empty        
+stmts   : stmts  stmt                 { ; }
+        | %empty                      
         ;
 
-stmt    : IDs ';'	              {printf("\n");}
-        | expr ';'	              {printf(" ");}
-        | IF                      {printf("IF_BEGIN_%d:\n", $1=ifLableCounter++); printf("\n");}
-          '('                     {printf("IF_CONDITION_%d:\n", $1);}
-         expr ')'                 {printf("if (%s==0) goto ELSE_CODE_%d;\n", $5, $1); printf("goto IF_CODE_%d;\n", $1);}
-                                  {printf("IF_CODE_%d:\n", $1);}
-         stmt                     {printf("goto ELSE_END_%d;\n", $1);}
+stmt    : optexpr ';'	              { printf(";\n"); }
+        | expr    ';'	              { printf(" "); }
 
-         ELSE                     {printf("ELSE_CODE_%d:\n", $1);}
-         stmt                     {printf("ELSE_END_%d:\n", $1);printf("\n");}
+        |IF                           { printf("IF_BEGIN_%d:\n", $1=ifLableCounter++); printf("\n"); }
+        '('                           { printf("IF_CONDITION_%d:\n", $1); printf("\n"); }
+        expr ')'                      { printf("ifTrue (%s) goto ELSE_Label_%d;\n", $5, $1); printf("goto IF_CODE_%d;\n", $1); printf("\n"); }
+                                      { printf("IF_CODE_%d:\n", $1); }
+        stmt                          { printf("ELSE_Label_%d:\n", $1); printf("\n"); }
 
-        | WHILE                   {printf("WHILE_BEGIN_%d:\n", $1=whileLableCounter++);}
-          '('                     {printf("WHILE_CONDITION_%d:\n", $1);}
 
-         expr ')'                {printf("if (%s==0) goto WHILE_END_%d;\n", $5, $1); printf("goto WHILE_CODE_%d;\n", $1);
-                                   printf("WHILE_CODE_%d:\n", $1);}
-         stmt                     {printf("goto WHILE_CONDITION_%d;\n", $1); printf("WHILE_END_%d:\n", $1);}
+        |IF                           { printf("IF_BEGIN_%d:\n", $1=ifLableCounter++); printf("\n"); }
+        '('                           { printf("IF_CONDITION_%d:\n", $1); printf("\n"); }
+        expr ')'                      { printf("ifTrue (%s) goto ELSE_CODE_%d;\n", $5, $1); printf("goto IF_CODE_%d;\n", $1); printf("\n"); }
+                                      { printf("IF_CODE_%d:\n", $1); }
+        stmt                          { printf("goto ELSE_END_%d;\n", $1); }
 
-        |block  {;}
+        ELSE                          { printf("ELSE_CODE_%d:\n", $1); } 
+        stmt                          { printf("ELSE_END_%d:\n", $1); printf("\n"); } 
+        
+
+        |WHILE                        { printf("WHILE_BEGIN_%d:\n", $1=whileLableCounter++); printf("\n"); } 
+        '('                           { printf("WHILE_CONDITION_%d:\n", $1); printf("\n"); }
+        expr ')'                      { printf("ifTrue (%s) goto WHILE_END_%d;\n", $5, $1); printf("goto WHILE_CODE_%d;\n", $1); printf("}\n"); printf("WHILE_CODE_%d:\n", $1); } 
+        stmt                          { printf("goto WHILE_CONDITION_%d;\n", $1); printf("\n"); printf("WHILE_END_%d:\n", $1); }
+
+        |block                        
         ;
 
-
-IDs     : IDs ',' ID			  {sprintf($$, "%s, %s", $1, $3);}
-	    | IDs ',' ID '=' expr	  {sprintf($$, "%s, %s = %s", $1, $3, $5);}
-	    | ID					  {sprintf($$, "%s",$1);}
-	    | ID '=' expr			  {sprintf($$, "%s = %s", $1, $3);}
-	    ;
-
-
-
-expr    : ID '=' expr             {strcpy($$, $3); printf("%s = %s;\n", $1, $3);}
-        |rel                      {strcpy($$, $1);}
+optexpr:    
+        expr                         { strcpy($$, $1); }
+        |%empty                      { ; }
         ;
 
-rel     : rel RELOP add           {sprintf($$, "t%d", tempVar++); printf("%s = %s %s %s;\n", $$, $1, $2, $3);}
-        |add                      {strcpy($$, $1);}
+IDs     : IDs ',' ID	             { sprintf($$, "%s, %s", $1, $3); }
+	| IDs ',' ID '=' expr	     { sprintf($$, "%s, %s = %s", $1, $3, $5); }
+	| ID			     { sprintf($$, "%s",$1);}
+	| ID '=' expr	             { sprintf($$, "%s = %s", $1, $3); }
+	;
+
+
+expr    : ID '=' expr               { strcpy($$, $3); printf("%s = %s;\n", $1, $3); }
+        | rel                       { strcpy($$, $1); }
         ;
 
-add     : add '+' term            {sprintf($$, "t%d", tempVar++); printf("%s = %s + %s;\n", $$, $1, $3);}
-        | add '-' term            {sprintf($$, "t%d", tempVar++); printf("%s = %s - %s;\n", $$, $1, $3);}
-        | term                    {strcpy($$, $1);}
+rel     : rel RELOP add             { sprintf($$, "t%d", tempVar++); printf("%s = %s %s %s;\n", $$, $1, $2, $3); }
+        | add                       { strcpy($$, $1);}
         ;
 
-term    : term '*' factor         {sprintf($$, "t%d", tempVar++); printf("%s = %s * %s;\n", $$, $1, $3);}
-        | term '/' factor         {sprintf($$, "t%d", tempVar++); printf("%s = %s / %s;\n", $$, $1, $3);}
-        | factor                  {strcpy($$, $1);}
+add     : add '+' term              { sprintf($$, "t%d", tempVar++); printf("%s = %s + %s;\n", $$, $1, $3); }
+        | add '-' term              { sprintf($$, "t%d", tempVar++); printf("%s = %s - %s;\n", $$, $1, $3); }
+        | term                      { strcpy($$, $1);}
         ;
 
-factor  : '(' expr ')'            {strcpy($$, $2);}
-        | NUM                     {strcpy($$, $1);}
-        | ID                      {strcpy($$, $1);}
+term    : term '*' factor           { sprintf($$, "t%d", tempVar++); printf("%s = %s * %s;\n", $$, $1, $3); }
+        | term '/' factor           { sprintf($$, "t%d", tempVar++); printf("%s = %s / %s;\n", $$, $1, $3); }
+        | factor                    { strcpy($$, $1); }
+        ;
+
+factor  : '(' expr ')'              { strcpy($$, $2); }
+        | NUM                       { strcpy($$, $1); }
+        | ID                        { strcpy($$, $1); }
         ;
 
 %%
