@@ -11,11 +11,11 @@ $ sudo apt-get install bison
 ```
 
 ### Run 
-After installing flex and bison follow below commands:
+After installing Flex and Bison follow the below commands:
 
 ``` 
 $ bison -d  parser.y
 $ flex lexical.l
-$ gcc lex.yy.c parser.tab.c -o ALYEK
-$ ./ALYEK < input.txt | cat > output.txt
+$ gcc lex.yy.c parser.tab.c -o compiler
+$ ./compiler < ./data/input/input1.txt | cat > ./data/output/output1.txt
 ```
